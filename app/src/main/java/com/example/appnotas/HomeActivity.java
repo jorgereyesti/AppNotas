@@ -12,7 +12,9 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.appnotas.Adapter.NoteAdapter;
+import com.example.appnotas.Adapter.User;
 import com.example.appnotas.model.Note;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,8 +27,8 @@ import java.util.List;
 public class HomeActivity extends AppCompatActivity {
     Button add, edit, delete;
     RecyclerView recyclerView;
-    FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+    FirebaseAuth    auth;
     List<Note> list =new ArrayList<>();
     Context context;
     @Override
@@ -42,9 +44,10 @@ public class HomeActivity extends AppCompatActivity {
         final NoteAdapter notesAdapter=new NoteAdapter(list,this);
         recyclerView.setAdapter(notesAdapter);
         //bd
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("Notes");
-
+        auth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference()
+                .child("Users").child(auth.getUid()).child("Notes");
+        System.out.println("id : " + User.getInstance().getUserUid());
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

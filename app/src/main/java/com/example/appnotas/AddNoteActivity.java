@@ -73,7 +73,7 @@ public class AddNoteActivity extends AppCompatActivity {
         String uid = auth.getUid();
         Note note = new Note(uid, id, sendHour, sendContent);
         assert uid != null;
-        mDataBase.child("Notes").child(id).setValue(note).addOnCompleteListener(new OnCompleteListener<Void>() {
+        mDataBase.child("Users").child(uid).child("Notes").child(id).setValue(note).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 Toast.makeText(AddNoteActivity.this, "Nota agregada.", Toast.LENGTH_SHORT).show();
